@@ -1,0 +1,8 @@
+
+
+sudo docker.io run -i -t 84add67c83b6 /bin/sh -c "cd /home/ante/pagerank/soundcloud_pagerank; ./run_pagerank.sh"
+
+gcloud compute instances create soundcloud-pagerank --image container-vm-v20140710 --image-project google-containers --zone us-central1-f --machine-type n1-standard-1 --scopes userinfo-email datastore --metadata-from-file startup-script=compute_instance_startup_script.sh
+gcloud compute instances delete soundcloud-pagerank --zone us-central1-f -q
+
+gcloud compute instances create micro-coordinator --zone us-central1-f --machine-type f1-micro --scopes userinfo-email datastore compute-rw

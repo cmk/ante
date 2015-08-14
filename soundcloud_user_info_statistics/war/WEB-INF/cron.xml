@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+	<cron>
+		<url>/cron/start_user_info_tasks</url>
+		<description>Decides which users to store information about and starts tasks for these.</description>
+		<schedule>every 1 hours synchronized</schedule></cron>
+	<cron>
+		<url>/cron/get_latest_tracks</url>
+		<schedule>every 1 minutes synchronized</schedule>
+		<description>Just gets the latest tracks from Soundcloud and stores their IDs</description></cron>
+	<cron>
+		<url>/cron/filter_new_tracks</url>
+		<schedule>every 1 hours synchronized</schedule>
+	</cron>
+</cronentries>

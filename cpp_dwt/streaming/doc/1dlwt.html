@@ -1,0 +1,385 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us"> 
+<head> 
+	<title>Liftwave</title> 
+	<link rel="stylesheet" type="text/css"
+	href="style3.css">
+
+</head> 
+<body> 
+      <div id="header" align="center">
+       <img alt="Wavepy"  src="img/wave1.jpg" width="600" height="100" />
+      </div>
+<dl id="menu"> 
+	
+	<dt><a href="index.html">Liftwave</a></dt> 
+	<dd> 
+	<ul> 			
+		<li><a href="liftscheme.html">liftscheme Class</a></li> 
+		<li><a href="1dlwt.html">lwt/ilwt Class</a></li>
+		<li><a href="2dlwt.html">lwt2/ilwt2 Class</a></li>
+		<li><a href="laurentpoly.html">Laurent Polynomial Class</a></li>
+		<li><a href="laurentmat.html">Laurent Matrices [2x2] Class</a></li>
+		<li><a href="example.html">Example Codes</a></li>
+		<li><a href="downloads.html">Downloads</a></li> 	
+		<li><a href="links.html">Links</a></li> 
+                                                                                                		
+	</ul> 
+	</dd> 
+</dl> 
+     <div id="main">
+     	<h2>1D LWT/ILWT Classes and Functions</h2>
+      	<h4>LWT Class </h4>
+
+      	<div id="hilite3">
+      	<PRE>
+      		lwt (vector< T > &signal, liftscheme &lft)
+		lwt (vector< T > &signal, string &name)
+		lwt (vector< T > &signal, liftscheme &lft, int &J)
+		lwt (vector< T > &signal, string &name, int &J)
+      	</PRE>
+      	</div>
+      	<p>First two declarations are for a single level Lifting Wavelet Transform decomposition. The last two are J-level of decomposition where J=1,2,... .
+
+Usage Examples are as following. </p>
+<p>A.) One Level Decomposition using wavelet name. </p>
+<div id="verbatim4">
+	<PRE>
+string name="bior2.2";
+double lp1_a[] = {0.9501,0.2311,0.6068,0.4860,0.8913,0.7621,0.4565,0.0185,0.8214,
+        0.4447,0.6154,0.7919,0.9218,0.7382,0.1763,0.4057};
+vector&lt;double&gt; sig;
+sig.assign(lp1_a,lp1_a + sizeof(lp1_a)/sizeof(double));
+
+lwt&lt;double&gt; dlift(sig,name);
+	</PRE>
+</div>
+<p>B.) One Level Decomposition using Lifting Scheme.  </p>
+<div id="verbatim4">
+	<PRE>
+string name="db3";
+double lp1_a[] = {0.9501,0.2311,0.6068,0.4860,0.8913,0.7621,0.4565,0.0185,0.8214,
+        0.4447,0.6154,0.7919,0.9218,0.7382,0.1763,0.4057};
+vector&lt;double&gt; sig;
+sig.assign(lp1_a,lp1_a + sizeof(lp1_a)/sizeof(double));
+
+liftscheme blift(name);
+string c="d";
+vector&lt;double&gt; addl;
+addl.push_back(0.500);
+addl.push_back(-0.125);
+
+int mp=0;
+blift.addLift(c,addl,mp);
+blift.disp();
+
+lwt&lt;double&gt; dlift(sig,blift);
+	</PRE>
+</div>
+<p>There are intermediate steps in this program which add a dual stage to the defined lifting scheme but the important steps are (i) defining a lifting scheme blift and (ii) using the so defined lifting scheme to find the single Level Lifting transform. </p>
+<p>C.) J Level Decomposition using wavelet name.  </p>
+<div id="verbatim4">
+	<PRE>
+string name="bior2.2";
+int J=2;
+double lp1_a[] = {0.9501,0.2311,0.6068,0.4860,0.8913,0.7621,0.4565,0.0185,0.8214,
+        0.4447,0.6154,0.7919,0.9218,0.7382,0.1763,0.4057};
+vector&lt;double&gt; sig;
+sig.assign(lp1_a,lp1_a + sizeof(lp1_a)/sizeof(double));
+
+lwt&lt;double&gt; dlift(sig,name,J);
+	</PRE>
+</div>
+
+<p>D.) J Level Decomposition using Lifting Scheme is also straightforward and works for J=1,2,..., N where N is appropriate level based on signal length. </p>
+<div id="verbatim4">
+	<PRE>
+string name="db3";
+int J=2;
+double lp1_a[] = {0.9501,0.2311,0.6068,0.4860,0.8913,0.7621,0.4565,0.0185,0.8214,
+        0.4447,0.6154,0.7919,0.9218,0.7382,0.1763,0.4057};
+vector&lt;double&gt; sig;
+sig.assign(lp1_a,lp1_a + sizeof(lp1_a)/sizeof(double));
+
+liftscheme blift(name);
+string c="d";
+vector&lt;double&gt; addl;
+addl.push_back(0.500);
+addl.push_back(-0.125);
+
+int mp=0;
+blift.addLift(c,addl,mp);
+blift.disp();
+
+lwt&lt;double&gt; dlift(sig,blift,J);
+	</PRE>
+</div>
+
+<h4>Functions Associated With LWT Class </h4>
+<div id="hilite3">
+      	<PRE>
+void    getCoeff (vector< T > &appx, vector< T > &det)
+void    getDetailVec (vector< int > &detvec)
+int     getLevels ()
+      	</PRE>
+      	</div>
+
+<p>getCoeff returns the approximation and detail vectors. Approximation Vector consists of the values at Jth level while detail vector consists of all the values from Jth down to first level. This necessitates getDetailVec function which returns the respective lengths of all J detail vectors contained in the detail vector. getLevels returns the number of decomposition levels. </p>
+<p>Usage Example- Consider Example D from above with lifting scheme blift and J=2. </p>
+
+<div id="verbatim4">
+	<PRE>
+lwt&lt;double&gt; dlift(sig,blift,J);
+vector&lt;double&gt; a,d;
+vector&lt;int&gt; lengths;
+dlift.getCoeff(a,d);
+dlift.getDetailVec(lengths);
+cout << " Approximation : " << endl;
+for (int i=0; i < a.size();i++) {
+cout << a[i] << " ";
+}
+cout << endl;
+
+cout << " Detail : " << endl;
+for (int i=0; i < d.size();i++) {
+cout << d[i] << " ";
+}
+cout << endl;
+
+cout << " Lengths Of Detail Vectors : " << endl;
+for (int i=0; i < lengths.size();i++) {
+cout << lengths[i] << " ";
+}
+cout << endl;
+	</PRE>
+</div>
+<p>The Output follows : </p>
+<div id="verbatim4">
+	<PRE>
+ Approximation :
+0.0443938 0.9017 1.1909 1.39608
+ Detail :
+-0.066988 -1.22228 -2.09606 0.711298 -0.775945 -1.26932 -1.23474 -2.10261 -0.291
+774 -1.29618 -1.43258 -0.4876
+ Lengths Of Detail Vectors :
+4 8
+	</PRE>
+</div>
+
+<p>The example above is very intuitive. We start with a signal of length 16 and end up with length 4 approximation/detail vectors at level 2 and length 8 detail vector at level 1. You can use "lengths" vector to extract individual vectors from the main detail vector. In this case, first 4 samples of the length 12 vector belong to the second stage while the first 8 belong to the first stage. </p>
+
+	 
+
+
+      	<h4>ILWT Class </h4>
+
+      	<div id="hilite3">
+      	<PRE>
+ilwt (vector< T > &sl, vector< T > &dl, liftscheme &lft)
+ilwt (vector< T > &sl, vector< T > &dl, string &name)
+ilwt (lwt< T > &wt, liftscheme &lft)
+ilwt (lwt< T > &wt, string &name)
+      	</PRE>
+      	</div>
+      	<p>Inverse LWT functions are used in accordance with the LWT function already used.
+
+Example Usage </p>
+<p>A. One Level Lifting Reconstruction with string Name. See A) in LWT class above. </p>
+<div id="verbatim4">
+	<PRE>
+vector&lt;double&gt; a,d;
+dlift.getCoeff(a,d);
+ilwt(a,d,name);
+	</PRE>
+</div>
+<p>B.) One Level Reconstruction using Lifting Scheme. See B) in lwt class above </p>
+<div id="verbatim4">
+	<PRE>
+vector&lt;double&gt; a,d;
+dlift.getCoeff(a,d);
+ilwt(a,d,blift);
+	</PRE>
+</div>
+<p>C.) J Level Reconstruction using wavelet name. In this case, instead of using coefficients as input we use the lwt class as the input to the ilwt class. This method is more user friendly and compact. </p>
+<div id="verbatim4">
+	<PRE>
+ilwt&lt;double&gt; idlift(dlift,name);
+	</PRE>
+</div>
+
+<p>D.) J Level Reconstruction using lifting scheme. In this case, instead of using coefficients as input we use the lwt class as the input to the ilwt class. This method is more user friendly and compact. </p>
+<div id="verbatim4">
+	<PRE>
+ilwt&lt;double&gt; idlift(dlift,blift);
+	</PRE>
+</div>
+
+<h4>Functions Associated With ILWT Class </h4>
+<div id="hilite3">
+      	<PRE>
+void    getSignal (vector< T > &sig)
+      	</PRE>
+      	</div>
+
+<p>The function getSignal returns the reconstructed signal.</p>
+
+<p>Usage Example- Consider Example D from above with lifting scheme blift and J=2 </p>
+
+<div id="verbatim4">
+	<PRE>
+ilwt&lt;double&gt; idlift(dlift,blift);
+vector&lt;double&gt; oup;
+idlift.getSignal(oup);
+
+cout << " Reconstructed : " << endl;
+for (int i=0; i < oup.size();i++) {
+cout << oup[i] << " ";
+}
+cout << endl;
+	</PRE>
+</div>
+<p>The Output follows : </p>
+<div id="verbatim4">
+	<PRE>
+ Reconstructed :
+0.9501 0.2311 0.6068 0.486 0.8913 0.7621 0.4565 0.0185 0.8214 0.4447 0.6154 0.79
+19 0.9218 0.7382 0.1763 0.4057
+	</PRE>
+</div>
+
+<h2>A Simple Example using D) declarations</h2>
+
+<div id="verbatim4">
+	<PRE>
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+#include "lwave.h"
+
+
+using namespace std;
+
+int main()
+{
+
+string name="db3";
+int J=2;
+double lp1_a[] = {0.9501,0.2311,0.6068,0.4860,0.8913,0.7621,0.4565,0.0185,0.8214,
+0.4447,0.6154,0.7919,0.9218,0.7382,0.1763,0.4057};
+/*double lp1_a[] = {1.000,1.000,1.000,1.000,1.000,1.000,1.000,1.000,1.000,
+1.000,1.000,1.000,1.000,1.000,1.000,1.000};*/
+vector&lt;double&gt; sig;
+    sig.assign(lp1_a,lp1_a + sizeof(lp1_a)/sizeof(double));
+
+liftscheme blift(name);
+string c="d";
+vector&lt;double&gt; addl;
+addl.push_back(0.500);
+addl.push_back(-0.125);
+
+int mp=0;
+blift.addLift(c,addl,mp);
+blift.disp();
+
+lwt&lt;double&gt; dlift(sig,blift,J);
+vector&lt;double&gt; a,d;
+vector&lt;int&gt; lengths;
+dlift.getCoeff(a,d);
+dlift.getDetailVec(lengths);
+cout << " Approximation : " << endl;
+for (int i=0; i < a.size();i++) {
+cout << a[i] << " ";
+}
+cout << endl;
+
+cout << " Detail : " << endl;
+for (int i=0; i < d.size();i++) {
+cout << d[i] << " ";
+}
+cout << endl;
+
+cout << " Lengths Of Detail Vectors : " << endl;
+for (int i=0; i < lengths.size();i++) {
+cout << lengths[i] << " ";
+}
+cout << endl;
+
+
+ilwt&lt;double&gt; idlift(dlift,blift);
+vector&lt;double&gt; oup;
+idlift.getSignal(oup);
+
+cout << " Reconstructed : " << endl;
+for (int i=0; i < oup.size();i++) {
+cout << oup[i] << " ";
+}
+cout << endl;
+
+
+return 0;
+}
+	</PRE>
+</div>
+<p>The Output Follows</p>
+
+<div id="verbatim4">
+	<PRE>
+Total Number of Stages : 5
+--------------------------
+Stage : 1
+Dual Lift
+Coefficients : -0.412287
+Laurent Polynomial : -0.412287*z^(0)
+
+Stage : 2
+Primal Lifting
+Coefficients : 0.352388 -1.56514
+Laurent Polynomial : 0.352388*z^(0)-1.56514*z^(-1)
+
+Stage : 3
+Dual Lift
+Coefficients : 0.492152 0.0284591
+Laurent Polynomial : 0.492152*z^(1)+0.0284591*z^(0)
+
+Stage : 4
+Primal Lifting
+Coefficients : -0.38962
+Laurent Polynomial : -0.38962*z^(0)
+
+Stage : 5
+Dual Lift
+Coefficients : 0.5 -0.125
+Laurent Polynomial : 0.5*z^(0)-0.125*z^(-1)
+
+--------------------------
+ K : 1.9182
+ Approximation :
+0.0443938 0.9017 1.1909 1.39608
+ Detail :
+-0.066988 -1.22228 -2.09606 0.711298 -0.775945 -1.26932 -1.23474 -2.10261 -0.291
+774 -1.29618 -1.43258 -0.4876
+ Lengths Of Detail Vectors :
+4 8
+ Reconstructed :
+0.9501 0.2311 0.6068 0.486 0.8913 0.7621 0.4565 0.0185 0.8214 0.4447 0.6154 0.79
+19 0.9218 0.7382 0.1763 0.4057
+
+Press any key to continue.
+
+	</PRE>
+
+</div>
+
+	
+
+</div>	
+	  
+
+  <div id="footer">
+  </div>
+</body> 
+</html> 
+

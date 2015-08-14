@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us"> 
+<head> 
+	<title>Liftwave</title> 
+	<link rel="stylesheet" type="text/css"
+	href="style3.css">
+
+</head> 
+<body> 
+      <div id="header" align="center">
+       <img alt="Wavepy"  src="img/wave1.jpg" width="600" height="100" />
+      </div>
+<dl id="menu"> 
+	
+	<dt><a href="index.html">Liftwave</a></dt> 
+	<dd> 
+	<ul> 			
+		<li><a href="liftscheme.html">liftscheme Class</a></li> 
+		<li><a href="1dlwt.html">lwt/ilwt Class</a></li>
+		<li><a href="2dlwt.html">lwt2/ilwt2 Class</a></li>
+		<li><a href="laurentpoly.html">Laurent Polynomial Class</a></li>
+		<li><a href="laurentmat.html">Laurent Matrices [2x2] Class</a></li>
+		<li><a href="example.html">Example Codes</a></li>
+		<li><a href="downloads.html">Downloads</a></li> 	
+		<li><a href="links.html">Links</a></li> 
+                                                                                                		
+	</ul> 
+	</dd> 
+</dl> 
+     <div id="main">
+      	<h2>Lifting Scheme Class and Functions</h2>
+         <p>This library implements lifting scheme based on Sweldens/Daubechies paper. <i>I. Daubechies, W. Sweldens, Factoring wavelets transforms into lifting steps, J. Fourier Anal. Appl. 4 (3) (1998) 247-269.</i> It is highly recommended that you download a copy of the paper from either the website of the Journal or from <a href="http://cm.bell-labs.com/who/wim/papers/factor/index.html">http://cm.bell-labs.com/who/wim/papers/factor/index.html</a> (See Figure 7 and 8 for implementation details) </p>
+				<img alt="lift1"  src="img/lift1.png" />
+				<img alt="lift2"  src="img/lift2.png" />
+		<br><br>
+		<h4>liftscheme Class</h4>
+		<div id="hilite">
+		liftscheme (string &name)
+         </div>		
+
+		<p><i>name</i> is the wavelet name and as of now the supported wavelets are Lazy, Haar(db1),db2-8, sym2-8, bior2.2-8, bior3.1-9, bior4.4 Usage Example is straightforward : </p>
+
+		<div id="hilite2">
+		<ul>
+		<li>string name="bior4.4";</li>
+		<li>liftscheme blift(name);</li>
+		</ul>
+        </div>
+        <h4>Functions Associated With liftscheme Class </h4>
+
+        <div id="hilite">
+		<ul>
+		<li>int     nlifts ()</li>
+		<li>double  K ()</li>
+		<li>string  getName ()</li>
+		<li>void    getScheme (vector< double > &coeff, vector< int > &lenvec, string &lattice, double &Kc)</li>
+		<li>void    disp ()</li>
+		<li>void    addLift (string &c, vector< double > &addcoeff, int mp)</li>
+		<li>void    addLift (string &c, vector< double > &addcoeff, int mp, string &pos)</li>
+
+		</ul>
+         </div>	
+
+         <h4>Adding A Lifting Stage to liftscheme </h4>
+         <p>Consider the liftscheme class defined as above. Suppose we want to add a dual lifiting stage to the scheme. We use addLift function as shown below. I have also overloaded the addlift function to specify whether the lifting stage should be added at the beginning or end. It accepts only two string values "begin" and "end". The default is "end". </p>
+
+         <div id="hilite2">
+         <ul>	
+		// Adding a Dual Lifting Stage
+
+		<li>string c="d"; //d corrsponds to dual while p corresponds to primal</li>
+		<li>vector&lt;double&gt; addl;</li>
+		<li>addl.push_back(0.500);</li>
+		<li>addl.push_back(-0.125);</li>
+
+		<li>int mp=0;</li>
+		<li>blift.addLift(c,addl,mp);</li>
+		</ul>
+        </div>
+
+        <p><i>addl</i> is a vector [0.500,-0.125] while mp is its maximum power such that the lift stage corresponds to the Laurent Polynomial 0.5*z^(0)-0.125*z^(-1). </p>
+
+        <h3>A Simple Example demonstrating the usage of liftscheme class</h3>
+
+        <div id="verbatim4">
+        	<PRE>
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+#include "lwave.h"
+
+
+using namespace std;
+
+int main()
+{
+
+string name="bior4.4";
+
+liftscheme blift(name);
+
+// Adding a Dual Lifting Stage
+
+string c="d"; //d corrsponds to dual while p corresponds to primal
+vector&lt;double&gt; addl;
+addl.push_back(0.500);
+addl.push_back(-0.125);
+
+int mp=0;
+blift.addLift(c,addl,mp);
+
+//Getting Information
+
+cout << " Number Of Lifting Stages : " << blift.nlifts() << endl;
+cout << " K Constant : " << blift.K() << endl;
+cout << " Name : " << blift.getName() << endl;
+
+vector&lt;double&gt; coeff;
+vector&lt;int&gt; lenvec;
+string lattice;
+double Kc;
+
+// Getting Full Scheme
+
+blift.getScheme(coeff,lenvec,lattice,Kc);
+
+cout << "Lifting Structure : " << lattice << endl;
+cout << " K Constant (Same As Above) : " << Kc << endl;
+
+cout << "A Single Vector Containing All Lifting Coefficients " << endl;
+
+for (int i=0; i <  (int)coeff.size(); i++) {
+        cout << coeff[i] << " " ;
+}
+cout << endl;
+
+cout << "Length Vector that corresponds to lengths of Lifting Coefficients and Maximum Power at each Stage" << endl;
+
+for (int i=0; i <(int) lenvec.size(); i++) {
+        cout << lenvec[i] << " " ;
+}
+cout << endl;
+// disp() Function Displays Coefficients and Laurent Polynomials At Each Stage 
+blift.disp();
+
+
+return 0;
+}	
+</PRE>
+        </div>
+    <p>The Corresponding Output is shown below. The program is very descriptive and users will have no problem understanding it. getScheme() can be used to obtain filter coefficients of each lifting stage. The first vector contains all the coefficients. The second vector (lenvec) may be used to extract individual coefficients at each stage. eg., lenvec[2*i] contains the length of the coefficient vector at stage i while lenvec[2*i+1] contains the maximum power. See the output below for more details. </p>
+    
+    <div id="verbatim4">
+    	<PRE>
+    	Number Of Lifting Stages : 5
+ K Constant : -0.869864
+ Name : bior4.4
+Lifting Structure : dpdpd
+ K Constant (Same As Above) : -0.869864
+A Single Vector Containing All Lifting Coefficients
+1.58613 1.58613 -1.07964 0.0529801 0.882911 0.882911 -0.443507 -1.57612 0.5 -0.1
+25
+Length Vector that corresponds to lengths of Lifting Coefficients and Maximum Po
+wer at each Stage
+2 1 2 0 2 0 2 2 2 0
+Total Number of Stages : 5
+--------------------------
+Stage : 1
+Dual Lift
+Coefficients : 1.58613 1.58613
+Laurent Polynomial : 1.58613*z^(1)+1.58613*z^(0)
+
+Stage : 2
+Primal Lifting
+Coefficients : -1.07964 0.0529801
+Laurent Polynomial : -1.07964*z^(0)+0.0529801*z^(-1)
+
+Stage : 3
+Dual Lift
+Coefficients : 0.882911 0.882911
+Laurent Polynomial : 0.882911*z^(0)+0.882911*z^(-1)
+
+Stage : 4
+Primal Lifting
+Coefficients : -0.443507 -1.57612
+Laurent Polynomial : -0.443507*z^(2)-1.57612*z^(1)
+
+Stage : 5
+Dual Lift
+Coefficients : 0.5 -0.125
+Laurent Polynomial : 0.5*z^(0)-0.125*z^(-1)
+
+--------------------------
+ K : -0.869864
+	
+    	</PRE>
+    </div>    
+
+
+	</div> 
+	  
+
+  <div id="footer">
+  </div>
+</body> 
+</html> 
+

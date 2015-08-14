@@ -1,0 +1,168 @@
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+html {
+
+    margin: 0;
+    padding: 0;
+
+}
+body {
+    font-family:  Verdana,Arial, Helvetica, sans-serif;
+    background-color: rgb(99%,99%,99%);
+    line-height: 125%;
+    text-indent: 0;
+
+}
+dl {
+    float:left;
+	 width:17%;
+	 margin-left:-79%;
+	 height:2%;
+	 
+}
+div#main{
+     
+	     font-size:80%;
+	     float:left;
+	     margin-left: 1%;
+	     width:79%;
+        border: thin dotted blue;
+        background-color: rgb(100%,100%,100%);
+		margin-bottom: 3%;
+       /* padding: 0 15% 4% 3%;*/
+}
+div#verbatim{
+    font-size:120%;
+    background-color:#99cccc;
+    width:80%;
+    border:thin dashed black;
+    margin-left:10%;
+}
+div#verbatim2{
+    font-size:120%;
+    background-color:#dddddd;
+    width:100%;
+    border:thin dashed black;
+    margin-left:0;
+}
+div#verbatim3{
+    font-size:120%;
+    background-color:#FFFFFF;
+    width:80%;
+    border:thin dashed white;
+    margin-left:10%;
+}
+/*
+div#side {
+	     font-size:80%;
+	     float:left;
+	     width:20%;
+	     border: thin dotted blue;
+        background-color: rgb(100%,100%,100%);
+        text-align: center;
+}
+div#side #box {
+  background-color: #ddd;
+}
+div#side a:link {
+    text-decoration:underline;
+    color:black;
+    font-weight:bold;
+}
+div#side a:visited {
+    text-decoration:underline;
+    color:#655300;
+    font-weight:bold;
+}
+*/
+/*div.resources {
+   float:right;
+   font-size: 80% ;
+   background-color: lightblue;
+   margin-right:24%;
+   width:30%;
+   background-color: rgb(85%,85%,85%);
+   border: thin dotted blue;	
+}*/
+h1 {
+    text-align: center;
+    text-decoration: underline;
+}
+h2 {
+    text-align: center;
+    text-decoration: underline;
+}
+h3 {
+    text-align: center;
+    text-decoration: underline;
+}
+h4 {
+    text-align: center;
+    text-decoration: underline;
+}
+#img1 {
+	width=60%;
+	height=60%;
+}
+#menu a:link{
+	text-decoration: none;
+	color:blue;
+}
+
+div.picture { display:block;
+margin-left:auto;margin-right:auto;
+font: 11px/1.4em Verdana,Arial, sans-serif; 
+ }
+ 
+
+div.next {
+  float:right;
+  border: thin dotted black;
+
+}
+
+
+#menu a:visited{
+	color:blue;
+	text-decoration: none;
+}
+
+
+div#hilite{
+    background-color: #BECBF4;
+	text-decoration: none;
+	font-weight: bold;
+	border: thin dotted blue;
+}
+
+div#hilite2{
+    background-color: #F3F5F7;
+  text-decoration: none;
+  font-weight: bold;
+  border: thin dotted blue;
+}
+div#hilite3{
+  font-size: 120%;
+    background-color: #BECBF4;
+  text-decoration: none;
+  font-weight: bold;
+  border: thin dotted blue;
+}
+div#verbatim4{
+    background-color: #F3F5F7;
+    font-size:120%;
+  text-decoration: none;
+  font-weight: bold;
+  border: thin dotted blue;
+}
+
+	
+	dl,dd { margin: 0; }
+	dt { background: #bbb; font-size: 15px; padding: 2px; margin: 1px; }
+	dd {background: #bbb}
+	dt a { color: #F3F5F7; text-align:center;}
+	dd a { color: #F3F5F7;text-align:center;font-size:12px }
+	ul { list-style: none; padding: 2px; }

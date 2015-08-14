@@ -1,0 +1,385 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us"> 
+<head> 
+	<title>Liftwave</title> 
+	<link rel="stylesheet" type="text/css"
+	href="style3.css">
+
+</head> 
+<body> 
+      <div id="header" align="center">
+       <img alt="Wavepy"  src="img/wave1.jpg" width="600" height="100" />
+      </div>
+<dl id="menu"> 
+	
+	<dt><a href="index.html">Liftwave</a></dt> 
+	<dd> 
+	<ul> 			
+		<li><a href="liftscheme.html">liftscheme Class</a></li> 
+		<li><a href="1dlwt.html">lwt/ilwt Class</a></li>
+		<li><a href="2dlwt.html">lwt2/ilwt2 Class</a></li>
+		<li><a href="laurentpoly.html">Laurent Polynomial Class</a></li>
+		<li><a href="laurentmat.html">Laurent Matrices [2x2] Class</a></li>
+		<li><a href="example.html">Example Codes</a></li>
+		<li><a href="downloads.html">Downloads</a></li> 	
+		<li><a href="links.html">Links</a></li> 
+                                                                                                		
+	</ul> 
+	</dd> 
+</dl> 
+     <div id="main">
+      	<h4>LaurentMat Class {2 X 2 Matrices}</h4>
+      	<p>Initialization </p>
+      	<div id="hilite3">
+      	<PRE>
+LaurentMat&lt;double&gt; matrix;
+      	</PRE>
+      	</div>
+<h4>Associated Functions </h4>
+<div id="hilite3">
+      	<PRE>
+void    setMat (Laurent< T > &AA, Laurent< T > &BB, Laurent< T > &CC, Laurent< T > &DD)
+void    Det (Laurent< T > &oup)
+void    MatAdd (LaurentMat &X, LaurentMat &Y)
+void    MatSub (LaurentMat &X, LaurentMat &Y)
+void    MatMult (LaurentMat &X, LaurentMat &Y)
+void    TZ (Laurent< T > &t)
+void    SZ (Laurent< T > &s)
+void    dispMat ()
+void    scale (T s)
+void    MatInv (LaurentMat &Inv)
+void    getLpoly (Laurent< T > &P, int N)
+      	</PRE>
+      	</div>
+<p>setMat sets the matrix. The Laurent Polynomials are entered as (1,1), (1,2),(2,1) and (2,2). </p>
+
+<div id="verbatim4">
+	<PRE>
+        Laurent&lt;double&gt; lpd,hpd,lpr,hpr;
+        lpoly(name,lpd,hpd,lpr,hpr);
+        
+        LaurentMat&lt;double&gt; matrix;
+        
+        matrix.setMat(lpd,lpr,hpd,hpr);
+	</PRE>
+</div>   	      	
+<p>Det finds the determinant of the matrix while you can use dispMat() to display the matrix. </p>
+<div id="verbatim4">
+	<PRE>
+        Laurent&lt;double&gt; determinant;
+        matrix.Det(determinant);
+        
+        cout << "The Matrix : " << endl;
+        matrix.dispMat();
+        cout << endl;
+        cout << " The Determinant : ";
+        determinant.dispPoly();
+	</PRE>
+</div>  
+<p>The Output is </p>
+<div id="verbatim4">
+	<PRE>
+The Matrix :
+ Laurent Matrix
+(1,1) : -0.176777*z^(1)+0.353553*z^(0)+1.06066*z^(-1)+0.353553*z^(-2)-0.176777*z
+^(-3)
+(1,2) : 0.353553*z^(0)+0.707107*z^(-1)+0.353553*z^(-2)
+(2,1) : 0.353553*z^(1)-0.707107*z^(0)+0.353553*z^(-1)
+(2,2) : 0.176777*z^(2)+0.353553*z^(1)-1.06066*z^(0)+0.353553*z^(-1)+0.176777*z^(
+-2)
+
+ The Determinant : -0.03125*z^(3)+0*z^(2)+0.375*z^(1)+1.38778e-017*z^(0)-0.6875*
+z^(-1)-1.38778e-017*z^(-2)+0.375*z^(-3)+0*z^(-4)-0.03125*z^(-5)
+
+	</PRE>
+</div> 
+
+<p>TZ and SZ functions set the T(Z) and S(Z) matrices (see the Sweldens/Daubechies paper). </p>
+
+<div id="verbatim4">
+	<PRE>
+        LaurentMat&lt;double&gt; T1,S1;
+        T1.TZ(lpd);
+        S1.SZ(hpd);
+        cout << "T(Z) matrix : " << endl;
+        T1.dispMat();
+        cout << "S(Z) matrix : " << endl;
+        S1.dispMat();
+
+	</PRE>
+</div> 
+<p>The Output </p>
+<div id="verbatim4">
+	<PRE>
+T(Z) matrix :
+ Laurent Matrix
+(1,1) : 1*z^(0)
+(1,2) : 0*z^(0)
+(2,1) : -0.176777*z^(1)+0.353553*z^(0)+1.06066*z^(-1)+0.353553*z^(-2)-0.176777*z
+^(-3)
+(2,2) : 1*z^(0)
+S(Z) matrix :
+ Laurent Matrix
+(1,1) : 1*z^(0)
+(1,2) : 0.353553*z^(1)-0.707107*z^(0)+0.353553*z^(-1)
+(2,1) : 0*z^(0)
+(2,2) : 1*z^(0)
+	</PRE>
+</div> 
+
+<h4>Scaling and The Inverse Of a Matrix </h4>
+<p>I have used the most basic and very restrictive algorithm to invert a 2X2 matrix. It works only if the determinant is a mononomial. Otherwise it returns all zeros. Scaling by a scalar is straightforward as the name implies. </p>
+<div id="verbatim4">
+	<PRE>
+        T1.scale(2.2);
+        cout << "T(Z) matrix Scaled by 2.2 : " << endl;
+        T1.dispMat();
+        
+        LaurentMat&lt;double&gt; IS;
+        
+        S1.MatInv(IS);
+        cout << "Inverse of S(Z) matrix  : " << endl;
+        IS.dispMat();
+	</PRE>
+</div> 
+
+<p>The Output</p>
+<div id="verbatim4">
+	<PRE>
+T(Z) matrix Scaled by 2.2 :
+ Laurent Matrix
+(1,1) : 2.2*z^(0)
+(1,2) : 0*z^(0)
+(2,1) : -0.388909*z^(1)+0.777817*z^(0)+2.33345*z^(-1)+0.777817*z^(-2)-0.388909*z
+^(-3)
+(2,2) : 2.2*z^(0)
+Inverse of S(Z) matrix  :
+ Laurent Matrix
+(1,1) : 1*z^(0)
+(1,2) : -0.353553*z^(1)+0.707107*z^(0)-0.353553*z^(-1)
+(2,1) : 0*z^(0)
+(2,2) : 1*z^(0)
+
+Press any key to continue.
+
+	</PRE>
+</div> 
+
+<h4>Matrix Addition, Subtraction and Multiplication </h4>
+<p>MatAdd, MatSub and MatMult add, subtract and multiply two matrices respectively. </p>
+
+<div id="verbatim4">
+	<PRE>
+        LaurentMat&lt;double&gt; addm,subm,multm;
+        
+        addm.MatAdd(T1,S1);
+        subm.MatSub(T1,S1);
+        multm.MatMult(T1,S1);
+        
+        cout << " T(Z)+S(Z) = " << endl;
+        addm.dispMat();
+        cout << endl;
+        
+        cout << " T(Z)-S(Z) = " << endl;
+        subm.dispMat();
+        cout <&lt;endl;
+        
+        cout << " T(Z)*S(Z) = " << endl;
+        multm.dispMat();
+        cout <&lt;endl;
+
+	</PRE>
+</div> 
+<p>The Output </p>
+<div id="verbatim4">
+	<PRE>
+ T(Z)+S(Z) =
+ Laurent Matrix
+(1,1) : 3.2*z^(0)
+(1,2) : 0.353553*z^(1)-0.707107*z^(0)+0.353553*z^(-1)
+(2,1) : -0.388909*z^(1)+0.777817*z^(0)+2.33345*z^(-1)+0.777817*z^(-2)-0.388909*z
+^(-3)
+(2,2) : 3.2*z^(0)
+
+ T(Z)-S(Z) =
+ Laurent Matrix
+(1,1) : 1.2*z^(0)
+(1,2) : -0.353553*z^(1)+0.707107*z^(0)-0.353553*z^(-1)
+(2,1) : -0.388909*z^(1)+0.777817*z^(0)+2.33345*z^(-1)+0.777817*z^(-2)-0.388909*z
+^(-3)
+(2,2) : 1.2*z^(0)
+
+ T(Z)*S(Z) =
+ Laurent Matrix
+(1,1) : 2.2*z^(0)
+(1,2) : 0.777817*z^(1)-1.55563*z^(0)+0.777817*z^(-1)
+(2,1) : -0.388909*z^(1)+0.777817*z^(0)+2.33345*z^(-1)+0.777817*z^(-2)-0.388909*z
+^(-3)
+(2,2) : -0.1375*z^(2)+0.55*z^(1)+2.3375*z^(0)-1.1*z^(-1)+0.1375*z^(-2)+0.55*z^(-
+3)-0.1375*z^(-4)
+
+
+Press any key to continue.
+
+	</PRE>
+</div> 
+<h2>A Simple Example demonstrating the use of LaurentMat class</h2>
+<p><i>This code also includes "filter.h" only because I am using a biorthogonal filter to set the matrix. You may not need to include "filter.h" usually if you are setting up matrices on your own. </i></p>
+
+<div id="verbatim4">
+	<PRE>
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+#include "lwave.h"
+#include "filter.h"
+
+
+using namespace std;
+
+int main()
+{
+        string name="bior2.2";
+        Laurent&lt;double&gt; lpd,hpd,lpr,hpr;
+        lpoly(name,lpd,hpd,lpr,hpr);
+        
+        LaurentMat&lt;double&gt; matrix;
+        
+        matrix.setMat(lpd,lpr,hpd,hpr);
+        Laurent&lt;double&gt; determinant;
+        matrix.Det(determinant);
+        
+        cout << "The Matrix : " << endl;
+        matrix.dispMat();
+        cout << endl;
+        cout << " The Determinant : ";
+        determinant.dispPoly();
+        
+        LaurentMat&lt;double&gt; T1,S1;
+        T1.TZ(lpd);
+        S1.SZ(hpd);
+        cout << "T(Z) matrix : " << endl;
+        T1.dispMat();
+        cout << "S(Z) matrix : " << endl;
+        S1.dispMat();
+        
+        T1.scale(2.2);
+        cout << "T(Z) matrix Scaled by 2.2 : " << endl;
+        T1.dispMat();
+        
+        LaurentMat&lt;double&gt; IS;
+        
+        S1.MatInv(IS);
+        cout << "Inverse of S(Z) matrix  : " << endl;
+        IS.dispMat();
+        
+        LaurentMat&lt;double&gt; addm,subm,multm;
+        
+        addm.MatAdd(T1,S1);
+        subm.MatSub(T1,S1);
+        multm.MatMult(T1,S1);
+        
+        cout << " T(Z)+S(Z) = " << endl;
+        addm.dispMat();
+        cout << endl;
+        
+        cout << " T(Z)-S(Z) = " << endl;
+        subm.dispMat();
+        cout <&lt;endl;
+        
+        cout << " T(Z)*S(Z) = " << endl;
+        multm.dispMat();
+        cout <&lt;endl;
+        
+        
+        return 0;
+}
+	</PRE>
+</div>
+<p>The Output Follows</p>
+
+<div id="verbatim4">
+	<PRE>
+The Matrix :
+ Laurent Matrix
+(1,1) : -0.176777*z^(1)+0.353553*z^(0)+1.06066*z^(-1)+0.353553*z^(-2)-0.176777*z
+^(-3)
+(1,2) : 0.353553*z^(0)+0.707107*z^(-1)+0.353553*z^(-2)
+(2,1) : 0.353553*z^(1)-0.707107*z^(0)+0.353553*z^(-1)
+(2,2) : 0.176777*z^(2)+0.353553*z^(1)-1.06066*z^(0)+0.353553*z^(-1)+0.176777*z^(
+-2)
+
+ The Determinant : -0.03125*z^(3)+0*z^(2)+0.375*z^(1)+1.38778e-017*z^(0)-0.6875*
+z^(-1)-1.38778e-017*z^(-2)+0.375*z^(-3)+0*z^(-4)-0.03125*z^(-5)
+T(Z) matrix :
+ Laurent Matrix
+(1,1) : 1*z^(0)
+(1,2) : 0*z^(0)
+(2,1) : -0.176777*z^(1)+0.353553*z^(0)+1.06066*z^(-1)+0.353553*z^(-2)-0.176777*z
+^(-3)
+(2,2) : 1*z^(0)
+S(Z) matrix :
+ Laurent Matrix
+(1,1) : 1*z^(0)
+(1,2) : 0.353553*z^(1)-0.707107*z^(0)+0.353553*z^(-1)
+(2,1) : 0*z^(0)
+(2,2) : 1*z^(0)
+T(Z) matrix Scaled by 2.2 :
+ Laurent Matrix
+(1,1) : 2.2*z^(0)
+(1,2) : 0*z^(0)
+(2,1) : -0.388909*z^(1)+0.777817*z^(0)+2.33345*z^(-1)+0.777817*z^(-2)-0.388909*z
+^(-3)
+(2,2) : 2.2*z^(0)
+Inverse of S(Z) matrix  :
+ Laurent Matrix
+(1,1) : 1*z^(0)
+(1,2) : -0.353553*z^(1)+0.707107*z^(0)-0.353553*z^(-1)
+(2,1) : 0*z^(0)
+(2,2) : 1*z^(0)
+ T(Z)+S(Z) =
+ Laurent Matrix
+(1,1) : 3.2*z^(0)
+(1,2) : 0.353553*z^(1)-0.707107*z^(0)+0.353553*z^(-1)
+(2,1) : -0.388909*z^(1)+0.777817*z^(0)+2.33345*z^(-1)+0.777817*z^(-2)-0.388909*z
+^(-3)
+(2,2) : 3.2*z^(0)
+
+ T(Z)-S(Z) =
+ Laurent Matrix
+(1,1) : 1.2*z^(0)
+(1,2) : -0.353553*z^(1)+0.707107*z^(0)-0.353553*z^(-1)
+(2,1) : -0.388909*z^(1)+0.777817*z^(0)+2.33345*z^(-1)+0.777817*z^(-2)-0.388909*z
+^(-3)
+(2,2) : 1.2*z^(0)
+
+ T(Z)*S(Z) =
+ Laurent Matrix
+(1,1) : 2.2*z^(0)
+(1,2) : 0.777817*z^(1)-1.55563*z^(0)+0.777817*z^(-1)
+(2,1) : -0.388909*z^(1)+0.777817*z^(0)+2.33345*z^(-1)+0.777817*z^(-2)-0.388909*z
+^(-3)
+(2,2) : -0.1375*z^(2)+0.55*z^(1)+2.3375*z^(0)-1.1*z^(-1)+0.1375*z^(-2)+0.55*z^(-
+3)-0.1375*z^(-4)
+
+
+Press any key to continue.
+
+	</PRE>
+
+</div>
+
+
+
+
+	</div> 
+	  
+
+  <div id="footer">
+  </div>
+</body> 
+</html> 
+

@@ -1,0 +1,13 @@
+application: ante-pact-651
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /.*
+  script: appengine_main.application
+
+libraries:
+- name: numpy
+  version: "1.6.1"

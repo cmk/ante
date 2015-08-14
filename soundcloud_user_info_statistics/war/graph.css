@@ -1,0 +1,8 @@
+.chart path {
+  stroke: steelblue;
+  fill: none;
+}
+
+.chart text {
+  font: 10px sans-serif;
+}
